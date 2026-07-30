@@ -17,7 +17,7 @@ export default function Segmented<T extends string>({
           type="button"
           onClick={() => onChange(opt)}
           className={cn(
-            'flex-1 rounded-lg px-3 py-2 text-sm font-medium capitalize transition duration-150 [transition-timing-function:var(--ease-out)]',
+            'flex-1 rounded-lg px-3 py-2 text-sm font-medium capitalize transition duration-150 ease-out',
             value === opt ? 'bg-accent text-accent-ink' : 'text-ink-2 hover:text-ink',
           )}
         >

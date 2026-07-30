@@ -47,8 +47,9 @@ function App() {
       .then(([ags, wps]) => {
         setAgents(ags)
         setWeapons(wps)
-        setAgent1(ags[0]?.uuid ?? '')
-        setAgent2(ags[1]?.uuid ?? ags[0]?.uuid ?? '')
+        const byName = (n: string) => ags.find((a) => a.displayName === n)?.uuid
+        setAgent1(byName('Raze') ?? ags[0]?.uuid ?? '')
+        setAgent2(byName('Cypher') ?? ags[1]?.uuid ?? ags[0]?.uuid ?? '')
         setWeaponUuid(wps.find((w) => w.displayName === 'Vandal')?.uuid ?? wps[0]?.uuid ?? '')
       })
       .catch((e) => setError(String(e)))
@@ -135,13 +136,7 @@ function App() {
       <header className="sticky top-0 z-40 border-b border-rule bg-paper/80 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <span
-              className="grid h-7 w-7 place-items-center bg-accent text-accent-ink"
-              style={{
-                clipPath: 'polygon(0 0, 70% 0, 100% 50%, 70% 100%, 0 100%)',
-              }}
-              aria-hidden
-            />
+            <img src="/favicon.svg" alt="" className="h-7 w-7" aria-hidden />
             <div className="leading-none">
               <div className="font-display text-lg font-extrabold tracking-tight uppercase">Kill Feed</div>
               <div className="font-mono text-[10px] tracking-[0.22em] text-ink-2 uppercase">Valorant Generator</div>
