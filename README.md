@@ -31,7 +31,14 @@ bun run dev        # start dev server
 bun run build      # typecheck + production build
 bun run lint       # oxlint
 bun run format     # prettier --write
+bun run gen:data   # regenerate src/data/valorant.json
 ```
+
+## Data
+
+Agent and weapon data is prebuilt into `src/data/valorant.json` (bundled at build time — no runtime API calls). `scripts/generate-data.ts` fetches from [valorant-api.com](https://valorant-api.com/) and trims to the fields the app uses.
+
+Regenerate locally with `bun run gen:data`, or run the **Update Valorant data** GitHub Action (`workflow_dispatch`) — it regenerates and commits the JSON only when it changes.
 
 ## Credits
 
