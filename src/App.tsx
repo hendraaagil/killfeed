@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { toPng } from 'html-to-image'
-import { fetchAgents, fetchWeapons, type Agent, type Weapon } from './lib/valorant'
+import { agents, weapons } from './lib/valorant'
 import { type Side } from './components/KillFeed'
 import BannerPreview from './components/BannerPreview'
 import Panel from './components/Panel'
@@ -22,18 +22,20 @@ import {
   WALLBANG_ICON,
 } from './lib/constants'
 
+const uuidByName = (name: string) => agents.find((a) => a.displayName === name)?.uuid
+const DEFAULT_AGENT_1_UUID = uuidByName(DEFAULT_AGENT_1) ?? agents[0]?.uuid ?? ''
+const DEFAULT_AGENT_2_UUID = uuidByName(DEFAULT_AGENT_2) ?? agents[1]?.uuid ?? agents[0]?.uuid ?? ''
+const DEFAULT_WEAPON_UUID = weapons.find((w) => w.displayName === DEFAULT_WEAPON)?.uuid ?? weapons[0]?.uuid ?? ''
+
 function App() {
-  const [agents, setAgents] = useState<Agent[]>([])
-  const [weapons, setWeapons] = useState<Weapon[]>([])
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const [loadout, setLoadout] = useState<'weapons' | 'abilities'>('weapons')
-  const [weaponUuid, setWeaponUuid] = useState('')
+  const [weaponUuid, setWeaponUuid] = useState(DEFAULT_WEAPON_UUID)
   const [abilitySlot, setAbilitySlot] = useState('')
 
-  const [agent1, setAgent1] = useState('')
-  const [agent2, setAgent2] = useState('')
+  const [agent1, setAgent1] = useState(DEFAULT_AGENT_1_UUID)
+  const [agent2, setAgent2] = useState(DEFAULT_AGENT_2_UUID)
   const [name1, setName1] = useState('')
   const [name2, setName2] = useState('')
   const [name1Edited, setName1Edited] = useState(false)
@@ -50,22 +52,8 @@ function App() {
 
   const feedRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    Promise.all([fetchAgents(), fetchWeapons()])
-      .then(([ags, wps]) => {
-        setAgents(ags)
-        setWeapons(wps)
-        const byName = (n: string) => ags.find((a) => a.displayName === n)?.uuid
-        setAgent1(byName(DEFAULT_AGENT_1) ?? ags[0]?.uuid ?? '')
-        setAgent2(byName(DEFAULT_AGENT_2) ?? ags[1]?.uuid ?? ags[0]?.uuid ?? '')
-        setWeaponUuid(wps.find((w) => w.displayName === DEFAULT_WEAPON)?.uuid ?? wps[0]?.uuid ?? '')
-      })
-      .catch((e) => setError(String(e)))
-      .finally(() => setLoading(false))
-  }, [])
-
-  const a1 = useMemo(() => agents.find((a) => a.uuid === agent1), [agents, agent1])
-  const a2 = useMemo(() => agents.find((a) => a.uuid === agent2), [agents, agent2])
+  const a1 = useMemo(() => agents.find((a) => a.uuid === agent1), [agent1])
+  const a2 = useMemo(() => agents.find((a) => a.uuid === agent2), [agent2])
   // the killer (left side) owns the ability list, regardless of player 1/2
   const killerAgent = swap ? a2 : a1
 
@@ -89,7 +77,7 @@ function App() {
       killerAgent?.abilities.find((ab) => ab.slot === abilitySlot)?.displayIcon ??
       ''
     )
-  }, [loadout, weapons, weaponUuid, killerAgent, abilitySlot])
+  }, [loadout, weaponUuid, killerAgent, abilitySlot])
 
   // a weapon-style icon that can be flipped: real weapons, or the 3 abilities
   // with a custom kill-feed icon
@@ -126,15 +114,6 @@ function App() {
     } catch (e) {
       setError(`Export failed: ${e}`)
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex min-h-svh items-center justify-center gap-3 text-ink-2">
-        <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
-        <span className="font-mono text-sm tracking-wide">Loading Valorant data…</span>
-      </div>
-    )
   }
 
   const exportBtn = (

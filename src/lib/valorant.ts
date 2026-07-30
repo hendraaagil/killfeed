@@ -1,4 +1,4 @@
-import { API } from './constants'
+import data from '../data/valorant.json'
 
 export type Weapon = {
   uuid: string
@@ -21,30 +21,6 @@ export type Agent = {
   abilities: Ability[]
 }
 
-export async function fetchWeapons(): Promise<Weapon[]> {
-  const res = await fetch(`${API}/weapons`)
-  const json = await res.json()
-  return (json.data as Weapon[])
-    .filter((w) => w.killStreamIcon)
-    .map((w) => ({
-      uuid: w.uuid,
-      displayName: w.displayName,
-      displayIcon: w.displayIcon,
-      killStreamIcon: w.killStreamIcon,
-    }))
-    .sort((a, b) => a.displayName.localeCompare(b.displayName))
-}
-
-export async function fetchAgents(): Promise<Agent[]> {
-  const res = await fetch(`${API}/agents?isPlayableCharacter=true`)
-  const json = await res.json()
-  return (json.data as Agent[])
-    .map((a) => ({
-      uuid: a.uuid,
-      displayName: a.displayName,
-      displayIcon: a.displayIcon,
-      killfeedPortrait: a.killfeedPortrait,
-      abilities: (a.abilities ?? []).filter((ab) => ab.displayIcon),
-    }))
-    .sort((a, b) => a.displayName.localeCompare(b.displayName))
-}
+// prebuilt at scripts/generate-data.ts — regenerate with `bun run gen:data`
+export const agents: Agent[] = data.agents
+export const weapons: Weapon[] = data.weapons

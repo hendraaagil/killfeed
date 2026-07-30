@@ -1,6 +1,3 @@
-// valorant-api base URL
-export const API = 'https://valorant-api.com/v1'
-
 // team colors
 export const TEAMMATE = '#67C4A1'
 export const ENEMY = '#F15A4A'
