@@ -8,6 +8,7 @@ import Segmented from './components/Segmented'
 import Toggle from './components/Toggle'
 import PlayerFields from './components/PlayerFields'
 import IconSelect from './components/IconSelect'
+import Footer from './components/Footer'
 
 const TEAMMATE = '#67C4A1'
 const ENEMY = '#F15A4A'
@@ -251,40 +252,7 @@ function App() {
           />
         </div>
 
-        <footer className="pt-2 text-center font-mono text-xs leading-relaxed text-ink-2">
-          <p>
-            Game &amp; assets by{' '}
-            <a
-              href="https://playvalorant.com/en-us/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-ink underline decoration-rule underline-offset-2 transition hover:decoration-accent"
-            >
-              VALORANT
-            </a>
-            {' · '}
-            Data from{' '}
-            <a
-              href="https://valorant-api.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-ink underline decoration-rule underline-offset-2 transition hover:decoration-accent"
-            >
-              valorant-api.com
-            </a>
-            {' · '}
-            Font{' '}
-            <a
-              href="https://fonts.google.com/specimen/Barlow"
-              target="_blank"
-              rel="noreferrer"
-              className="text-ink underline decoration-rule underline-offset-2 transition hover:decoration-accent"
-            >
-              Barlow
-            </a>
-          </p>
-          <p className="mt-1 text-ink-2">Not affiliated with or endorsed by Riot Games.</p>
-        </footer>
+        <Footer />
       </main>
 
       <div className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-rule bg-paper/90 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
