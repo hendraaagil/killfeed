@@ -1,3 +1,5 @@
+import { API } from './constants'
+
 export type Weapon = {
   uuid: string
   displayName: string
@@ -18,8 +20,6 @@ export type Agent = {
   killfeedPortrait: string
   abilities: Ability[]
 }
-
-const API = 'https://valorant-api.com/v1'
 
 export async function fetchWeapons(): Promise<Weapon[]> {
   const res = await fetch(`${API}/weapons`)

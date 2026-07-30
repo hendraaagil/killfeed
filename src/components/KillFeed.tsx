@@ -1,9 +1,6 @@
 import { forwardRef } from 'react'
 import { cn } from '../lib/utils'
-
-const OUTLINE = '#F5D949'
-const BASE_H = 36
-const CONTENT_RATIO = 24 / 36 // content band is 24px of the 36px height
+import { BASE_H, CONTENT_RATIO, OUTLINE } from '../lib/constants'
 
 export type Side = {
   icon: string

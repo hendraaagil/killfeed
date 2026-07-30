@@ -9,19 +9,18 @@ import Toggle from './components/Toggle'
 import PlayerFields from './components/PlayerFields'
 import IconSelect from './components/IconSelect'
 import Footer from './components/Footer'
-
-const TEAMMATE = '#67C4A1'
-const ENEMY = '#F15A4A'
-
-// abilities that show a custom weapon-style icon in the real kill feed,
-// keyed by `${agentUuid}:${slot}` (valorant-api only exposes the HUD glyph)
-const KILLFEED_ABILITY_ICON: Record<string, string> = {
-  '22697a3d-45bf-8dd7-4fec-84a9e28c69d7:Ability1': '/abilities/chamber-headhunter.png', // Headhunter
-  '22697a3d-45bf-8dd7-4fec-84a9e28c69d7:Ultimate': '/abilities/chamber-tdf.png', // Tour De Force
-  'add6443a-41bd-e414-f6ad-e58d267f4e95:Ultimate': '/abilities/jett-bladestorm.png', // Blade Storm
-}
-const PREVIEW_SCALE = 2 // banner base is 36px → 72px preview
-const PREVIEW_H = 36 * PREVIEW_SCALE // 72px
+import {
+  DEFAULT_AGENT_1,
+  DEFAULT_AGENT_2,
+  DEFAULT_WEAPON,
+  ENEMY,
+  HEADSHOT_ICON,
+  KILLFEED_ABILITY_ICON,
+  PREVIEW_H,
+  PREVIEW_SCALE,
+  TEAMMATE,
+  WALLBANG_ICON,
+} from './lib/constants'
 
 function App() {
   const [agents, setAgents] = useState<Agent[]>([])
@@ -57,9 +56,9 @@ function App() {
         setAgents(ags)
         setWeapons(wps)
         const byName = (n: string) => ags.find((a) => a.displayName === n)?.uuid
-        setAgent1(byName('Raze') ?? ags[0]?.uuid ?? '')
-        setAgent2(byName('Cypher') ?? ags[1]?.uuid ?? ags[0]?.uuid ?? '')
-        setWeaponUuid(wps.find((w) => w.displayName === 'Vandal')?.uuid ?? wps[0]?.uuid ?? '')
+        setAgent1(byName(DEFAULT_AGENT_1) ?? ags[0]?.uuid ?? '')
+        setAgent2(byName(DEFAULT_AGENT_2) ?? ags[1]?.uuid ?? ags[0]?.uuid ?? '')
+        setWeaponUuid(wps.find((w) => w.displayName === DEFAULT_WEAPON)?.uuid ?? wps[0]?.uuid ?? '')
       })
       .catch((e) => setError(String(e)))
       .finally(() => setLoading(false))
@@ -178,8 +177,8 @@ function App() {
             weaponIcon={weaponIcon}
             flipWeapon={flippableIcon && flipWeapon}
             iconGap={loadout === 'abilities'}
-            headshotIcon={headshot ? '/headshot.png' : null}
-            wallbangIcon={wallbang ? '/wall.png' : null}
+            headshotIcon={headshot ? HEADSHOT_ICON : null}
+            wallbangIcon={wallbang ? WALLBANG_ICON : null}
             outline={outlineSide}
             outlineStyle={outlineStyle}
           />
