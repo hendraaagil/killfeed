@@ -12,6 +12,14 @@ import Footer from './components/Footer'
 
 const TEAMMATE = '#67C4A1'
 const ENEMY = '#F15A4A'
+
+// abilities that show a custom weapon-style icon in the real kill feed,
+// keyed by `${agentUuid}:${slot}` (valorant-api only exposes the HUD glyph)
+const KILLFEED_ABILITY_ICON: Record<string, string> = {
+  '22697a3d-45bf-8dd7-4fec-84a9e28c69d7:Ability1': '/abilities/chamber-headhunter.png', // Headhunter
+  '22697a3d-45bf-8dd7-4fec-84a9e28c69d7:Ultimate': '/abilities/chamber-tdf.png', // Tour De Force
+  'add6443a-41bd-e414-f6ad-e58d267f4e95:Ultimate': '/abilities/jett-bladestorm.png', // Blade Storm
+}
 const PREVIEW_SCALE = 2 // banner base is 36px → 72px preview
 const PREVIEW_H = 36 * PREVIEW_SCALE // 72px
 
@@ -77,8 +85,16 @@ function App() {
     if (loadout === 'weapons') {
       return weapons.find((w) => w.uuid === weaponUuid)?.killStreamIcon ?? ''
     }
-    return killerAgent?.abilities.find((ab) => ab.slot === abilitySlot)?.displayIcon ?? ''
+    return (
+      KILLFEED_ABILITY_ICON[`${killerAgent?.uuid}:${abilitySlot}`] ??
+      killerAgent?.abilities.find((ab) => ab.slot === abilitySlot)?.displayIcon ??
+      ''
+    )
   }, [loadout, weapons, weaponUuid, killerAgent, abilitySlot])
+
+  // a weapon-style icon that can be flipped: real weapons, or the 3 abilities
+  // with a custom kill-feed icon
+  const flippableIcon = loadout === 'weapons' || `${killerAgent?.uuid}:${abilitySlot}` in KILLFEED_ABILITY_ICON
 
   const player1: Side = {
     icon: a1?.killfeedPortrait ?? '',
@@ -160,7 +176,7 @@ function App() {
             left={left}
             right={right}
             weaponIcon={weaponIcon}
-            flipWeapon={loadout === 'weapons' && flipWeapon}
+            flipWeapon={flippableIcon && flipWeapon}
             iconGap={loadout === 'abilities'}
             headshotIcon={headshot ? '/headshot.png' : null}
             wallbangIcon={wallbang ? '/wall.png' : null}
@@ -200,7 +216,7 @@ function App() {
                 Abilities come from the killer's agent ({killerAgent?.displayName}).
               </p>
             )}
-            {loadout === 'weapons' && (
+            {flippableIcon && (
               <div className="mt-3">
                 <Toggle checked={flipWeapon} onChange={setFlipWeapon} label="Flip weapon icon" />
               </div>

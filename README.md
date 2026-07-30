@@ -35,6 +35,6 @@ bun run format     # prettier --write
 
 ## Credits
 
-Game & assets by [VALORANT](https://playvalorant.com/en-us/) · data from [valorant-api.com](https://valorant-api.com/) · font [Barlow](https://fonts.google.com/specimen/Barlow).
+Game & assets by [VALORANT](https://playvalorant.com/en-us/) · data from [valorant-api.com](https://valorant-api.com/) · media from [VALORANT Wiki](https://wiki.playvalorant.com/) · font [Barlow](https://fonts.google.com/specimen/Barlow).
 
 Not affiliated with or endorsed by Riot Games.
