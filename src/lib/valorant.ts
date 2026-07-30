@@ -15,6 +15,7 @@ export type Agent = {
   uuid: string
   displayName: string
   displayIcon: string
+  killfeedPortrait: string
   abilities: Ability[]
 }
 
@@ -42,6 +43,7 @@ export async function fetchAgents(): Promise<Agent[]> {
       uuid: a.uuid,
       displayName: a.displayName,
       displayIcon: a.displayIcon,
+      killfeedPortrait: a.killfeedPortrait,
       abilities: (a.abilities ?? []).filter((ab) => ab.displayIcon),
     }))
     .sort((a, b) => a.displayName.localeCompare(b.displayName))

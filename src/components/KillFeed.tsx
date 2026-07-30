@@ -1,4 +1,5 @@
 import { forwardRef } from 'react'
+import { cn } from '../lib/utils'
 
 const OUTLINE = '#F5D949'
 const BASE_H = 36
@@ -71,12 +72,13 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
       side === 'left'
         ? 'linear-gradient(90deg, #000 0%, #000 22%, transparent 78%)'
         : 'linear-gradient(90deg, transparent 22%, #000 78%, #000 100%)'
+    const innerStroke = Math.round(stroke * 1.5)
     return (
       <div
         className="pointer-events-none absolute inset-0 z-20"
         style={{
           clipPath: clip,
-          boxShadow: `inset 0 0 0 ${stroke}px ${OUTLINE}, inset 0 0 ${stroke * 4}px ${hexToRgba(OUTLINE, 0.55)}`,
+          boxShadow: `inset 0 0 0 ${innerStroke}px ${OUTLINE}, inset 0 0 ${innerStroke * 4}px ${hexToRgba(OUTLINE, 0.55)}`,
           maskImage: fade,
           WebkitMaskImage: fade,
         }}
@@ -85,17 +87,13 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
   }
 
   const Portrait = ({ icon, flip }: { icon: string; flip?: boolean }) => (
-    <div className="relative z-10 shrink-0 overflow-hidden" style={{ height: H }}>
+    <div className="relative z-10 shrink-0" style={{ height: H }}>
       <img
         src={icon}
         crossOrigin="anonymous"
         alt=""
         className="block w-auto max-w-none"
-        style={{
-          height: H * 1.35,
-          marginTop: -(H * 1.35 - H) / 2, // crop top/bottom equally, keep vertically centered
-          transform: flip ? 'scaleX(-1)' : undefined,
-        }}
+        style={{ height: H, transform: flip ? 'scaleX(-1)' : undefined }}
       />
     </div>
   )
@@ -182,12 +180,15 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
     </div>
   )
 
+  // the glowing group sits behind at the seam so the other group covers its
+  // glow; default (no glow / left glow) keeps the victim on top.
+  const rightOnTop = !isGlow('right')
+
   return (
     <div ref={ref} className="relative inline-flex items-stretch select-none" style={{ height: H }}>
-      <div className="relative z-0 flex items-stretch">{leftGroup(isGlow('left'))}</div>
+      <div className={cn('relative flex items-stretch', rightOnTop ? 'z-0' : 'z-10')}>{leftGroup(isGlow('left'))}</div>
 
-      {/* RIGHT group (victim) — on top so it hides the glow on the chevron seam */}
-      <div className="relative z-10 flex items-stretch" style={{ marginLeft: -seam }}>
+      <div className={cn('relative flex items-stretch', rightOnTop ? 'z-10' : 'z-0')} style={{ marginLeft: -seam }}>
         {rightGroup(isGlow('right'))}
       </div>
     </div>

@@ -81,12 +81,12 @@ function App() {
   }, [loadout, weapons, weaponUuid, killerAgent, abilitySlot])
 
   const player1: Side = {
-    icon: a1?.displayIcon ?? '',
+    icon: a1?.killfeedPortrait ?? '',
     name: displayName1,
     color: color1,
   }
   const player2: Side = {
-    icon: a2?.displayIcon ?? '',
+    icon: a2?.killfeedPortrait ?? '',
     name: displayName2,
     color: color2,
   }
