@@ -78,8 +78,16 @@ function App() {
     return killerAgent?.abilities.find((ab) => ab.slot === abilitySlot)?.displayIcon ?? ''
   }, [loadout, weapons, weaponUuid, killerAgent, abilitySlot])
 
-  const player1: Side = { icon: a1?.displayIcon ?? '', name: displayName1, color: color1 }
-  const player2: Side = { icon: a2?.displayIcon ?? '', name: displayName2, color: color2 }
+  const player1: Side = {
+    icon: a1?.displayIcon ?? '',
+    name: displayName1,
+    color: color1,
+  }
+  const player2: Side = {
+    icon: a2?.displayIcon ?? '',
+    name: displayName2,
+    color: color2,
+  }
 
   // left is always the killer
   const left = swap ? player2 : player1
@@ -90,7 +98,10 @@ function App() {
     if (!feedRef.current) return
     try {
       // export at the fixed 72px preview size
-      const url = await toPng(feedRef.current, { pixelRatio: 1, cacheBust: true })
+      const url = await toPng(feedRef.current, {
+        pixelRatio: 1,
+        cacheBust: true,
+      })
       const a = document.createElement('a')
       a.download = `killfeed.hndr.xyz-${displayName1}-${displayName2}.png`.toLowerCase()
       a.href = url
@@ -113,7 +124,7 @@ function App() {
     <button
       type="button"
       onClick={handleExport}
-      className="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition duration-150 [transition-timing-function:var(--ease-out)] hover:brightness-110 active:translate-y-px"
+      className="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition duration-150 ease-out hover:brightness-110 active:translate-y-px"
     >
       Export PNG
     </button>
@@ -126,7 +137,9 @@ function App() {
           <div className="flex items-center gap-2.5">
             <span
               className="grid h-7 w-7 place-items-center bg-accent text-accent-ink"
-              style={{ clipPath: 'polygon(0 0, 70% 0, 100% 50%, 70% 100%, 0 100%)' }}
+              style={{
+                clipPath: 'polygon(0 0, 70% 0, 100% 50%, 70% 100%, 0 100%)',
+              }}
               aria-hidden
             />
             <div className="leading-none">
@@ -140,9 +153,7 @@ function App() {
 
       <main className="mx-auto grid max-w-6xl gap-6 px-4 pt-6 pb-28 sm:px-6 lg:gap-8 lg:pt-8 lg:pb-14">
         {error && (
-          <div className="rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-ink">
-            {error}
-          </div>
+          <div className="rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-ink">{error}</div>
         )}
 
         <section className="min-w-0 lg:sticky lg:top-20 lg:z-10">
@@ -168,20 +179,30 @@ function App() {
             <div className="mt-4">
               {loadout === 'weapons' ? (
                 <IconSelect
-                  items={weapons.map((w) => ({ id: w.uuid, label: w.displayName, icon: w.displayIcon }))}
+                  items={weapons.map((w) => ({
+                    id: w.uuid,
+                    label: w.displayName,
+                    icon: w.displayIcon,
+                  }))}
                   value={weaponUuid}
                   onChange={setWeaponUuid}
                 />
               ) : (
                 <IconSelect
-                  items={(killerAgent?.abilities ?? []).map((ab) => ({ id: ab.slot, label: ab.displayName, icon: ab.displayIcon }))}
+                  items={(killerAgent?.abilities ?? []).map((ab) => ({
+                    id: ab.slot,
+                    label: ab.displayName,
+                    icon: ab.displayIcon,
+                  }))}
                   value={abilitySlot}
                   onChange={setAbilitySlot}
                 />
               )}
             </div>
             {loadout === 'abilities' && (
-              <p className="mt-3 text-xs text-ink-2">Abilities come from the killer's agent ({killerAgent?.displayName}).</p>
+              <p className="mt-3 text-xs text-ink-2">
+                Abilities come from the killer's agent ({killerAgent?.displayName}).
+              </p>
             )}
             {loadout === 'weapons' && (
               <div className="mt-3">
@@ -211,7 +232,10 @@ function App() {
             agentUuid={agent1}
             onAgent={setAgent1}
             name={displayName1}
-            onName={(v) => { setName1(v); setName1Edited(true) }}
+            onName={(v) => {
+              setName1(v)
+              setName1Edited(true)
+            }}
             color={color1}
             onColor={setColor1}
           />
@@ -223,13 +247,16 @@ function App() {
             agentUuid={agent2}
             onAgent={setAgent2}
             name={displayName2}
-            onName={(v) => { setName2(v); setName2Edited(true) }}
+            onName={(v) => {
+              setName2(v)
+              setName2Edited(true)
+            }}
             color={color2}
             onColor={setColor2}
           />
         </div>
 
-        <footer className="pt-2 text-center font-mono text-[11px] leading-relaxed text-ink-2">
+        <footer className="pt-2 text-center font-mono text-xs leading-relaxed text-ink-2">
           <p>
             Game &amp; assets by{' '}
             <a
@@ -265,10 +292,7 @@ function App() {
         </footer>
       </main>
 
-      <div
-        className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-rule bg-paper/90 px-4 py-3 backdrop-blur lg:hidden"
-        style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
-      >
+      <div className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-rule bg-paper/90 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <button
           type="button"
           onClick={handleExport}

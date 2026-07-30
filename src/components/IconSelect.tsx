@@ -30,7 +30,7 @@ export default function IconSelect({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-2.5 rounded-lg border border-rule bg-paper-3 px-3 py-2 text-left text-sm text-ink outline-none transition focus:border-accent"
+        className="flex w-full items-center gap-2.5 rounded-lg border border-rule bg-paper-3 px-3 py-2 text-left text-sm text-ink transition outline-none focus:border-accent"
       >
         {current && <img src={current.icon} alt="" className="h-6 w-8 shrink-0 object-contain" />}
         <span className="min-w-0 flex-1 truncate">{current?.label}</span>

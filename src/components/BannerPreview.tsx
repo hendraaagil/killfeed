@@ -3,8 +3,7 @@ import KillFeed, { type Side } from './KillFeed'
 
 const checkerStyle = {
   backgroundColor: 'oklch(0.14 0.015 260)',
-  backgroundImage:
-    'conic-gradient(#1d2028 25%, transparent 0 50%, #1d2028 0 75%, transparent 0)',
+  backgroundImage: 'conic-gradient(#1d2028 25%, transparent 0 50%, #1d2028 0 75%, transparent 0)',
   backgroundSize: '20px 20px',
 } satisfies React.CSSProperties
 
@@ -57,10 +56,14 @@ export default function BannerPreview({ feedRef, previewH, ...feed }: Props) {
   return (
     <div className="overflow-hidden rounded-2xl border border-rule bg-paper-2">
       <div className="flex items-center justify-between border-b border-rule px-4 py-2.5">
-        <span className="font-mono text-[11px] tracking-[0.18em] text-ink-2 uppercase">Preview</span>
-        <span className="font-mono text-[11px] text-ink-2">{previewH}px tall</span>
+        <span className="font-mono text-xs tracking-[0.18em] text-ink-2 uppercase">Preview</span>
+        <span className="font-mono text-xs text-ink-2">{previewH}px tall</span>
       </div>
-      <div ref={fitBoxRef} className="flex w-full min-w-0 justify-center overflow-hidden p-5 sm:p-8" style={checkerStyle}>
+      <div
+        ref={fitBoxRef}
+        className="flex w-full min-w-0 justify-center overflow-hidden p-5 sm:p-8"
+        style={checkerStyle}
+      >
         {/* reserve the scaled footprint so no extra whitespace remains */}
         <div style={nat.w ? { width: nat.w * fit, height: nat.h * fit } : undefined}>
           {/* banner renders at natural width (unconstrained) so it can grow; only scaled visually */}

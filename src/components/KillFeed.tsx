@@ -43,18 +43,7 @@ function hexToRgba(hex: string, alpha: number) {
 }
 
 const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
-  {
-    left,
-    right,
-    weaponIcon,
-    flipWeapon,
-    iconGap,
-    headshotIcon,
-    wallbangIcon,
-    outline,
-    outlineStyle,
-    scale,
-  },
+  { left, right, weaponIcon, flipWeapon, iconGap, headshotIcon, wallbangIcon, outline, outlineStyle, scale },
   ref,
 ) {
   const H = BASE_H * scale
@@ -72,20 +61,12 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
 
   // 'glow' look: yellow stroke + soft glow tracing the whole teammate silhouette.
   const outlineFilter = `drop-shadow(${stroke}px 0 0 ${OUTLINE}) drop-shadow(-${stroke}px 0 0 ${OUTLINE}) drop-shadow(0 ${stroke}px 0 ${OUTLINE}) drop-shadow(0 -${stroke}px 0 ${OUTLINE}) drop-shadow(0 0 ${stroke * 3}px ${hexToRgba(OUTLINE, 0.85)})`
-  const isGlow = (side: 'left' | 'right') =>
-    outline === side && outlineStyle === 'glow'
-  const showInner = (side: 'left' | 'right') =>
-    outline === side && outlineStyle === 'inner'
+  const isGlow = (side: 'left' | 'right') => outline === side && outlineStyle === 'glow'
+  const showInner = (side: 'left' | 'right') => outline === side && outlineStyle === 'inner'
 
   // 'inner' look: yellow outline inside the teammate's colored block, fading
   // out toward the center seam. `side` is the block's outer edge.
-  const OutlineOverlay = ({
-    side,
-    clip,
-  }: {
-    side: 'left' | 'right'
-    clip: string
-  }) => {
+  const OutlineOverlay = ({ side, clip }: { side: 'left' | 'right'; clip: string }) => {
     const fade =
       side === 'left'
         ? 'linear-gradient(90deg, #000 0%, #000 22%, transparent 78%)'
@@ -104,18 +85,14 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
   }
 
   const Portrait = ({ icon, flip }: { icon: string; flip?: boolean }) => (
-    <div
-      className="relative z-10 shrink-0 overflow-hidden"
-      style={{ height: H }}
-    >
+    <div className="relative z-10 shrink-0 overflow-hidden" style={{ height: H }}>
       <img
         src={icon}
         crossOrigin="anonymous"
         alt=""
-        className="block max-w-none"
+        className="block w-auto max-w-none"
         style={{
           height: H * 1.35,
-          width: 'auto',
           marginTop: -(H * 1.35 - H) / 2, // crop top/bottom equally, keep vertically centered
           transform: flip ? 'scaleX(-1)' : undefined,
         }}
@@ -125,14 +102,8 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
 
   const Name = ({ text }: { text: string }) => (
     <span
-      className="whitespace-nowrap text-white"
-      style={{
-        fontFamily: 'var(--font-banner)',
-        fontWeight: 500,
-        fontSize: font,
-        lineHeight: `${content}px`,
-        letterSpacing: '0.02em',
-      }}
+      className="font-banner font-medium tracking-[0.02em] whitespace-nowrap text-white"
+      style={{ fontSize: font, lineHeight: `${content}px` }}
     >
       {text}
     </span>
@@ -140,10 +111,7 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
 
   // Glow style: yellow stroke + soft glow tracing the whole teammate silhouette.
   const leftGroup = (forGlow: boolean) => (
-    <div
-      className="flex items-stretch"
-      style={forGlow ? { filter: outlineFilter } : undefined}
-    >
+    <div className="flex items-stretch" style={forGlow ? { filter: outlineFilter } : undefined}>
       <Portrait icon={left.icon} />
       <div
         className="relative z-0 flex items-center"
@@ -157,24 +125,18 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
           background: `linear-gradient(90deg, ${hexToRgba(left.color, 0)} 0%, ${left.color} ${overlap}px)`,
         }}
       >
-        {!forGlow && showInner('left') && (
-          <OutlineOverlay side="left" clip={leftClip} />
-        )}
+        {!forGlow && showInner('left') && <OutlineOverlay side="left" clip={leftClip} />}
         <Name text={left.name} />
-        <div
-          className="flex shrink-0 items-center"
-          style={{ gap: iconGap ? pad * 0.5 : 0 }}
-        >
+        <div className="flex shrink-0 items-center" style={{ gap: iconGap ? pad * 0.5 : 0 }}>
           <img
             src={weaponIcon}
             crossOrigin="anonymous"
             alt=""
-            className="object-contain"
+            className="w-auto object-contain"
             style={{
               height: content,
-              width: 'auto',
               maxWidth: H * 3,
-              transform: flipWeapon ? 'scaleX(-1)' : 'none',
+              transform: flipWeapon ? 'scaleX(-1)' : undefined,
             }}
           />
           {wallbangIcon && (
@@ -182,12 +144,8 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
               src={wallbangIcon}
               crossOrigin="anonymous"
               alt="wallbang"
-              className="object-contain"
-              style={{
-                height: content,
-                boxSizing: 'content-box',
-                paddingInline: pad * 0.35,
-              }}
+              className="box-content max-h-10.5 max-w-10.5 object-contain"
+              style={{ height: content, paddingInline: pad * 0.35 }}
             />
           )}
           {headshotIcon && (
@@ -195,12 +153,8 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
               src={headshotIcon}
               crossOrigin="anonymous"
               alt="headshot"
-              className="object-contain"
-              style={{
-                height: content,
-                boxSizing: 'content-box',
-                paddingInline: pad * 0.35,
-              }}
+              className="box-content max-h-10.5 max-w-10.5 object-contain"
+              style={{ height: content, paddingInline: pad * 0.35 }}
             />
           )}
         </div>
@@ -209,10 +163,7 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
   )
 
   const rightGroup = (forGlow: boolean) => (
-    <div
-      className="flex items-stretch"
-      style={forGlow ? { filter: outlineFilter } : undefined}
-    >
+    <div className="flex items-stretch" style={forGlow ? { filter: outlineFilter } : undefined}>
       <div
         className="relative z-0 flex items-center justify-start"
         style={{
@@ -224,9 +175,7 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
           background: `linear-gradient(90deg, ${right.color} calc(100% - ${overlap}px), ${hexToRgba(right.color, 0)} 100%)`,
         }}
       >
-        {!forGlow && showInner('right') && (
-          <OutlineOverlay side="right" clip={rightClip} />
-        )}
+        {!forGlow && showInner('right') && <OutlineOverlay side="right" clip={rightClip} />}
         <Name text={right.name} />
       </div>
       <Portrait icon={right.icon} flip />
@@ -234,20 +183,11 @@ const KillFeed = forwardRef<HTMLDivElement, Props>(function KillFeed(
   )
 
   return (
-    <div
-      ref={ref}
-      className="relative inline-flex select-none items-stretch"
-      style={{ height: H }}
-    >
-      <div className="relative z-0 flex items-stretch">
-        {leftGroup(isGlow('left'))}
-      </div>
+    <div ref={ref} className="relative inline-flex items-stretch select-none" style={{ height: H }}>
+      <div className="relative z-0 flex items-stretch">{leftGroup(isGlow('left'))}</div>
 
       {/* RIGHT group (victim) — on top so it hides the glow on the chevron seam */}
-      <div
-        className="relative z-10 flex items-stretch"
-        style={{ marginLeft: -seam }}
-      >
+      <div className="relative z-10 flex items-stretch" style={{ marginLeft: -seam }}>
         {rightGroup(isGlow('right'))}
       </div>
     </div>

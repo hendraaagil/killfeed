@@ -35,7 +35,7 @@ export default function PlayerFields({
       </div>
       <div className="flex flex-col gap-3 text-sm">
         <div className="flex flex-col gap-1.5">
-          <span className="font-mono text-[11px] tracking-wide text-ink-2 uppercase">Agent</span>
+          <span className="font-mono text-xs tracking-wide text-ink-2 uppercase">Agent</span>
           <IconSelect
             items={agents.map((a) => ({ id: a.uuid, label: a.displayName, icon: a.displayIcon }))}
             value={agentUuid}
@@ -43,15 +43,15 @@ export default function PlayerFields({
           />
         </div>
         <label className="flex flex-col gap-1.5">
-          <span className="font-mono text-[11px] tracking-wide text-ink-2 uppercase">Nickname</span>
+          <span className="font-mono text-xs tracking-wide text-ink-2 uppercase">Nickname</span>
           <input
             value={name}
             onChange={(e) => onName(e.target.value)}
-            className="w-full rounded-lg border border-rule bg-paper-3 px-3 py-2 text-ink outline-none transition focus:border-accent"
+            className="w-full rounded-lg border border-rule bg-paper-3 px-3 py-2 text-ink transition outline-none focus:border-accent"
           />
         </label>
         <div className="flex items-center justify-between">
-          <span className="font-mono text-[11px] tracking-wide text-ink-2 uppercase">Color</span>
+          <span className="font-mono text-xs tracking-wide text-ink-2 uppercase">Color</span>
           <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs text-ink-2">{color.toUpperCase()}</span>
             <span className="relative inline-block h-9 w-12 overflow-hidden rounded-lg border border-rule">
