@@ -18,6 +18,10 @@ export default function Footer() {
         <a href="https://fonts.google.com/specimen/Barlow" target="_blank" rel="noreferrer" className={linkClass}>
           Barlow
         </a>
+        {' · '}
+        <a href="https://github.com/hendraaagil/killfeed" target="_blank" rel="noreferrer" className={linkClass}>
+          GitHub
+        </a>
       </p>
       <p className="mt-1 text-ink-2">Not affiliated with or endorsed by Riot Games.</p>
     </footer>
