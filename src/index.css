@@ -1,14 +1,7 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'DIN Next W1G';
-  src: url('/DINNextW1G.woff2') format('woff2');
-  font-weight: 100 900;
-  font-display: swap;
-}
-
 @theme {
-  --font-banner: 'DIN Next W1G', var(--font-body);
+  --font-banner: 'Barlow', var(--font-body);
   --color-paper: oklch(0.17 0.018 260);
   --color-paper-2: oklch(0.21 0.02 260);
   --color-paper-3: oklch(0.26 0.022 260);

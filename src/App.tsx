@@ -231,7 +231,7 @@ function App() {
 
         <footer className="pt-2 text-center font-mono text-[11px] leading-relaxed text-ink-2">
           <p>
-            Font &amp; game by{' '}
+            Game &amp; assets by{' '}
             <a
               href="https://playvalorant.com/en-us/"
               target="_blank"
@@ -249,6 +249,16 @@ function App() {
               className="text-ink underline decoration-rule underline-offset-2 transition hover:decoration-accent"
             >
               valorant-api.com
+            </a>
+            {' · '}
+            Font{' '}
+            <a
+              href="https://fonts.google.com/specimen/Barlow"
+              target="_blank"
+              rel="noreferrer"
+              className="text-ink underline decoration-rule underline-offset-2 transition hover:decoration-accent"
+            >
+              Barlow
             </a>
           </p>
           <p className="mt-1 text-ink-2">Not affiliated with or endorsed by Riot Games.</p>
